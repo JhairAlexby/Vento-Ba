@@ -68,4 +68,12 @@ export class AuthService {
       throw new UnauthorizedException('Error al generar el token de acceso');
     }
   }
+
+  async getProfile(userId: string) {
+    try {
+      return await this.usersService.findOne(userId);
+    } catch (error) {
+      throw new UnauthorizedException('Usuario no encontrado');
+    }
+  }
 }

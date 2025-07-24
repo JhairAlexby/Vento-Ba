@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { Platillo } from '../../menu/entities/platillo.entity';
 
 @Entity('users')
 export class User {
@@ -21,4 +21,7 @@ export class User {
   @IsNotEmpty()
   @Length(6, 100)
   contrasena: string;
+
+  @OneToMany(() => Platillo, (platillo) => platillo.usuario)
+  platillos: Platillo[];
 }

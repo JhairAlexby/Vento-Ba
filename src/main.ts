@@ -12,9 +12,9 @@ if (!globalThis.crypto) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  // Configurar CORS para permitir cookies
+  // Configurar CORS para permitir cualquier origen
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3001', // URL de tu frontend
+    origin: true, // Permitir cualquier origen
     credentials: true, // Permitir cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

@@ -1,34 +1,98 @@
+# Vento-Ba Backend
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descripción
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Backend para la aplicación Vento-Ba, un sistema de gestión de restaurantes desarrollado con NestJS y TypeScript. El sistema permite la gestión de usuarios, menús y pedidos con autenticación JWT.
 
-## Description
+## Características
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- 🔐 **Autenticación JWT** - Sistema seguro de autenticación y autorización
+- 👥 **Gestión de Usuarios** - Registro, login y gestión de perfiles
+- 🍽️ **Gestión de Menú** - CRUD completo para platillos del restaurante
+- 📋 **Sistema de Pedidos** - Creación y seguimiento de pedidos con estados
+- 🗄️ **Base de Datos PostgreSQL** - Persistencia de datos con TypeORM
+- ✅ **Validaciones** - Validación robusta de datos con class-validator
+- 📚 **Documentación API** - Documentación completa de endpoints
 
-## Project setup
+## Módulos Disponibles
+
+### 🔐 Auth Module
+- Login y registro de usuarios
+- Autenticación JWT
+- Guards para protección de rutas
+
+### 👥 Users Module  
+- Gestión de perfiles de usuario
+- Operaciones CRUD para usuarios
+
+### 🍽️ Menu Module
+- Gestión de platillos del restaurante
+- Categorización y disponibilidad
+- Precios y descripciones
+
+### 📋 Pedidos Module
+- Creación de pedidos con múltiples platillos
+- Estados de pedido (pendiente, confirmado, en preparación, listo, entregado, cancelado)
+- Cálculo automático de totales
+- Historial de pedidos por usuario
+- Estadísticas de pedidos
+
+## Tecnologías
+
+- **Framework**: NestJS
+- **Lenguaje**: TypeScript
+- **Base de Datos**: PostgreSQL
+- **ORM**: TypeORM
+- **Autenticación**: JWT + Passport
+- **Validación**: class-validator + class-transformer
+- **Encriptación**: bcrypt
+
+## Configuración del Proyecto
 
 ```bash
 $ npm install
+```
+
+### Variables de Entorno
+
+Crea un archivo `.env` basado en `.env.example`:
+
+```bash
+# Base de datos
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=tu_password
+DB_NAME=vento_db
+
+# JWT
+JWT_SECRET=tu_jwt_secret_muy_seguro
+JWT_EXPIRES_IN=24h
+
+# Puerto de la aplicación
+PORT=3000
+```
+
+### Base de Datos
+
+1. Asegúrate de tener PostgreSQL instalado y ejecutándose
+2. Crea la base de datos:
+```sql
+CREATE DATABASE vento_db;
+```
+
+3. Ejecuta las migraciones (si las hay):
+```bash
+$ npm run typeorm:migration:run
+```
+
+4. (Opcional) Ejecuta los seeders para datos de ejemplo:
+```bash
+$ npx ts-node src/scripts/run-seeders.ts
 ```
 
 ## Compile and run the project
@@ -55,6 +119,59 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+## Documentación de API
+
+La documentación completa de la API está disponible en los siguientes archivos:
+
+- **[API_AUTH_DOCS.md](./API_AUTH_DOCS.md)** - Endpoints de autenticación
+- **[API_MENU_DOCS.md](./API_MENU_DOCS.md)** - Endpoints del menú
+- **[API_PEDIDOS_DOCS.md](./API_PEDIDOS_DOCS.md)** - Endpoints de pedidos
+
+### Endpoints Principales
+
+#### Autenticación
+- `POST /auth/register` - Registro de usuario
+- `POST /auth/login` - Inicio de sesión
+- `GET /auth/profile` - Perfil del usuario
+
+#### Menú
+- `GET /menu` - Obtener todos los platillos
+- `POST /menu` - Crear platillo
+- `GET /menu/:id` - Obtener platillo por ID
+- `PATCH /menu/:id` - Actualizar platillo
+- `DELETE /menu/:id` - Eliminar platillo
+
+#### Pedidos
+- `POST /pedidos` - Crear pedido
+- `GET /pedidos` - Obtener todos los pedidos
+- `GET /pedidos/mis-pedidos` - Obtener mis pedidos
+- `GET /pedidos/:id` - Obtener pedido por ID
+- `PATCH /pedidos/:id/estado` - Actualizar estado del pedido
+- `PATCH /pedidos/:id/cancelar` - Cancelar pedido
+
+## Estructura del Proyecto
+
+```
+src/
+├── auth/                 # Módulo de autenticación
+│   ├── dto/             # DTOs de autenticación
+│   ├── guards/          # Guards JWT y Local
+│   └── strategies/      # Estrategias de Passport
+├── users/               # Módulo de usuarios
+│   ├── dto/            # DTOs de usuarios
+│   └── entities/       # Entidad User
+├── menu/                # Módulo de menú
+│   ├── dto/            # DTOs de platillos
+│   └── entities/       # Entidad Platillo
+├── pedidos/             # Módulo de pedidos
+│   ├── dto/            # DTOs de pedidos
+│   └── entities/       # Entidades Pedido y DetallePedido
+├── database/            # Configuración de base de datos
+│   └── seeders/        # Seeders para datos de ejemplo
+├── migrations/          # Migraciones de TypeORM
+└── scripts/            # Scripts utilitarios
 ```
 
 ## Deployment

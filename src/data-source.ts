@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { User } from './users/entities/user.entity';
 import { Platillo } from './menu/entities/platillo.entity';
+import { Pedido } from './pedidos/entities/pedido.entity';
+import { DetallePedido } from './pedidos/entities/detalle-pedido.entity';
 
 config();
 
@@ -15,7 +17,7 @@ export const AppDataSource = new DataSource({
   username: configService.get('DB_USERNAME') || 'postgres',
   password: configService.get('DB_PASSWORD') || 'password',
   database: configService.get('DB_NAME') || 'vento_db',
-  entities: [User, Platillo],
+  entities: [User, Platillo, Pedido, DetallePedido],
   migrations: ['src/migrations/*.ts'],
   synchronize: false,
   logging: true,

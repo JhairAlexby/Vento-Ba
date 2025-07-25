@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import { 
-  IsNotEmpty, 
   IsOptional, 
   IsString, 
   IsArray, 
@@ -16,7 +15,6 @@ export class CreatePedidoDto {
   @Length(0, 500, { message: 'Las notas no pueden exceder 500 caracteres' })
   notas?: string;
 
-  @IsNotEmpty({ message: 'Los detalles del pedido son requeridos' })
   @IsArray({ message: 'Los detalles deben ser un arreglo' })
   @ArrayMinSize(1, { message: 'Debe incluir al menos un platillo en el pedido' })
   @ValidateNested({ each: true })

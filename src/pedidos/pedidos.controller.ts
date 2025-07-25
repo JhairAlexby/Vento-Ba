@@ -16,6 +16,7 @@ import {
 } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
+import { TestPedidoDto } from './dto/test-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { EstadoPedido } from './entities/pedido.entity';
@@ -29,6 +30,31 @@ export class PedidosController {
   @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   async create(@Body() createPedidoDto: CreatePedidoDto, @Request() req) {
     return await this.pedidosService.create(createPedidoDto, req.user.userId);
+  }
+
+  @Post('test-debug')
+  async testDebug(@Body() body: any) {
+    console.log('🔍 Raw body:', body);
+    console.log('🔍 Detalles type:', typeof body.detalles);
+    console.log('🔍 Is array:', Array.isArray(body.detalles));
+    console.log('🔍 Detalles content:', body.detalles);
+    
+    return {
+      received: body,
+      detallesType: typeof body.detalles,
+      isArray: Array.isArray(body.detalles),
+      detallesLength: body.detalles ? body.detalles.length : 'undefined'
+    };
+  }
+
+  @Post('test-validation')
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async testValidation(@Body() testDto: TestPedidoDto) {
+    console.log('✅ Validation passed:', testDto);
+    return {
+      message: 'Validation successful',
+      data: testDto
+    };
   }
 
   @Get()

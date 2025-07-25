@@ -21,7 +21,7 @@ export class CreateDetallePedidoDto {
   @IsPositive({ message: 'La cantidad debe ser positiva' })
   @Min(1, { message: 'La cantidad mínima es 1' })
   @Max(99, { message: 'La cantidad máxima es 99' })
-  @Transform(({ value }) => parseInt(value))
+  @Transform(({ value }) => Number(value))
   cantidad: number;
 
   @IsOptional()

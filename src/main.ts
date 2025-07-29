@@ -17,7 +17,8 @@ async function bootstrap() {
     origin: true, // Permitir cualquier origen
     credentials: true, // Permitir cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['Set-Cookie'],
   });
 
   // Configurar middleware de cookies

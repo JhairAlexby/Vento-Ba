@@ -19,11 +19,11 @@ export class AuthController {
   async register(@Body() createUserDto: CreateUserDto, @Res({ passthrough: true }) response: Response) {
     const result = await this.authService.register(createUserDto);
     
-    // Configurar cookie segura
+    // Configurar cookie segura para cross-origin
     response.cookie('access_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cambio importante
       maxAge: 60 * 60 * 1000, // 1 hora
     });
 
@@ -41,11 +41,11 @@ export class AuthController {
   async login(@Request() req, @Body() loginDto: LoginDto, @Res({ passthrough: true }) response: Response) {
     const result = await this.authService.login(req.user);
     
-    // Configurar cookie segura
+    // Configurar cookie segura para cross-origin
     response.cookie('access_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cambio importante
       maxAge: 60 * 60 * 1000, // 1 hora
     });
 
@@ -63,7 +63,7 @@ export class AuthController {
     response.clearCookie('access_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cambio importante
       path: '/'
     });
     
@@ -87,7 +87,7 @@ export class AuthController {
     response.clearCookie('access_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cambio importante
       path: '/'
     });
     
